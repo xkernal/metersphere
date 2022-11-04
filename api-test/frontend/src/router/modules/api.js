@@ -9,7 +9,7 @@ export default {
     {
       path: 'home',
       name: 'fucHome',
-      component: () => import('@/business/home/ApiTestHome'),
+      component: () => import('@/business/home/ApiHome'),
     },
     {
       path: "automation/report",

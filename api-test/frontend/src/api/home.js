@@ -45,3 +45,15 @@ export function genPerformanceTestXml(file, files, params) {
 export function getFailureCaseAboutTestPlan(projectId, selectFunctionCase) {
   return get('/home/failure/case/about/plan/' + projectId + '/' + selectFunctionCase + "/10");
 }
+
+export function formatNumber(param) {
+  let num = (param || 0).toString(), result = '';
+  while (num.length > 3) {
+    result = ',' + num.slice(-3) + result;
+    num = num.slice(0, num.length - 3);
+  }
+  if (num) {
+    result = num + result;
+  }
+  return result;
+}

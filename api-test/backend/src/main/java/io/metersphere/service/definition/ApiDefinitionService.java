@@ -283,6 +283,7 @@ public class ApiDefinitionService {
         try {
             startTime = DateUtils.getDayStartTime(startDay);
         } catch (Exception e) {
+            LogUtil.error("获取日期出错", e);
         }
         if (startTime == null) {
             return new ArrayList<>(0);
@@ -292,7 +293,7 @@ public class ApiDefinitionService {
             List<ApiDefinitionResult> resList = extApiDefinitionMapper.weekList(request, startTime.getTime());
             calculateResult(resList, request.getProjectId());
             calculateResultSce(resList);
-            resList.stream().forEach(item -> item.setApiType("api"));
+            resList.forEach(item -> item.setApiType("api"));
             return resList;
         }
     }
