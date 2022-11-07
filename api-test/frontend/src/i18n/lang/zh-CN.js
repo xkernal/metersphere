@@ -22,12 +22,14 @@ const message = {
   home: {
     dashboard: {
       public: {
+        no_data: "暂无数据",
+        load_error: "加载失败",
         this_week: "本周",
         fake_error: "误报",
         executed_times_in_week: "本周执行次数",
         executed_times: "历史执行总次数",
         covered: "已覆盖",
-        uncovered: "未覆盖",
+        not_covered: "未覆盖",
         executed: "已执行",
         not_executed: "未执行",
         pass: "已通过",

@@ -1,20 +1,25 @@
 <template>
-  <div class="api-dashboard-card">
+  <div class="dashboard-card">
     <el-card shadow="hover" class="box-card" style="height: 100%">
       <div slot="header" class="clearfix">
         <span class="dashboard-title">{{ $t('home.dashboard.scenario.title') }}</span>
       </div>
       <div v-loading="loading" element-loading-background="#FFFFFF">
-        <div v-show="loadError"></div>
+        <div v-show="loadError"
+             style="width: 100%; height: 300px; display: flex; flex-direction: column;     justify-content: center;align-items: center">
+          <img style="height: 100px;width: 100px;"
+               src="/assets/figma/icon_load.svg"/>
+          <span class="addition-info-title" style="color: #646A73">{{ $t("home.dashboard.public.load_error") }}</span>
+        </div>
         <div v-show="!loadError">
           <div class="main-info">
             <el-row :gutter="16">
               <el-col :span="12">
-                <main-info-card :title="$t('home.dashboard.scenario.title')" :count-data="apiCaseData"
+                <main-info-card :title="$t('home.dashboard.scenario.title')" :count-data="scenarioData"
                                 :is-execute-info="false"/>
               </el-col>
               <el-col :span="12">
-                <main-info-card :title="$t('home.dashboard.public.executed_times_in_week')" :count-data="apiCaseData"
+                <main-info-card :title="$t('home.dashboard.public.executed_times_in_week')" :count-data="scenarioData"
                                 :is-execute-info="true"/>
               </el-col>
             </el-row>
@@ -30,10 +35,10 @@
                         $t('home.dashboard.scenario.covered_rate')
                       }}</span>
                       <img style="height: 14px;width: 14px;margin-left: 4px"
-                           src="/assets/ms-icon-question.jpg"/>
+                           src="/assets/icon_question.svg"/>
                       <div class="common-amount">
                       <span class="addition-info-text">
-                        {{ apiCaseData.apiCoveredRate }}
+                        {{ scenarioData.apiCoveredRate }}
                       </span>
                       </div>
                     </div>
@@ -48,17 +53,17 @@
                         </span>
                           <div class="common-amount">
                           <span class="addition-info-num">
-                            {{ formatAmount(apiCaseData.coveredCount) }}
+                            {{ formatAmount(scenarioData.coveredCount) }}
                           </span>
                           </div>
                         </el-col>
                         <el-col :span="12">
                         <span class="addition-info-title">
-                          {{ $t("home.dashboard.public.uncovered") }}
+                          {{ $t("home.dashboard.public.not_covered") }}
                         </span>
                           <div class="common-amount">
                           <span class="addition-info-num">
-                            {{ formatAmount(apiCaseData.unCoveredCount) }}
+                            {{ formatAmount(scenarioData.notCoveredCount) }}
                           </span>
                           </div>
                         </el-col>
@@ -76,10 +81,10 @@
                         $t('home.dashboard.scenario.executed_rate')
                       }}</span>
                       <img style="height: 14px;width: 14px;margin-left: 4px"
-                           src="/assets/ms-icon-question.jpg"/>
+                           src="/assets/icon_question.svg"/>
                       <div class="common-amount">
                       <span class="addition-info-text">
-                        {{ apiCaseData.executedRate }}
+                        {{ scenarioData.executedRate }}
                       </span>
                       </div>
                     </div>
@@ -94,7 +99,7 @@
                         </span>
                           <div class="common-amount">
                           <span class="addition-info-num">
-                            {{ formatAmount(apiCaseData.executedCount) }}
+                            {{ formatAmount(scenarioData.executedCount) }}
                           </span>
                           </div>
                         </el-col>
@@ -104,7 +109,7 @@
                         </span>
                           <div class="common-amount">
                           <span class="addition-info-num">
-                            {{ formatAmount(apiCaseData.notExecutedCount) }}
+                            {{ formatAmount(scenarioData.notExecutedCount) }}
                           </span>
                           </div>
                         </el-col>
@@ -122,10 +127,10 @@
                         $t('home.dashboard.scenario.pass_rate')
                       }}</span>
                       <img style="height: 14px;width: 14px;margin-left: 4px"
-                           src="/assets/ms-icon-question.jpg"/>
+                           src="/assets/icon_question.svg"/>
                       <div class="common-amount">
                       <span class="addition-info-text">
-                        {{ apiCaseData.passRate }}
+                        {{ scenarioData.passRate }}
                       </span>
                       </div>
                     </div>
@@ -140,7 +145,7 @@
                         </span>
                           <div class="common-amount">
                           <span class="addition-info-num">
-                            {{ formatAmount(apiCaseData.passCount) }}
+                            {{ formatAmount(scenarioData.passCount) }}
                           </span>
                           </div>
                         </el-col>
@@ -150,7 +155,7 @@
                         </span>
                           <div class="common-amount">
                           <span class="addition-info-num">
-                            {{ formatAmount(apiCaseData.unPassCount) }}
+                            {{ formatAmount(scenarioData.unPassCount) }}
                           </span>
                           </div>
                         </el-col>
@@ -170,7 +175,8 @@
 <script>
 import hoverCard from "@/business/home/components/card/HoverCard";
 import mainInfoCard from "@/business/home/components/card/MainInfoCard";
-import {formatNumber} from "@/api/home";
+import {formatNumber, scenarioCountByProjectId} from "@/api/home";
+import {getCurrentProjectID} from "metersphere-frontend/src/utils/token";
 
 export default {
   name: "ScenarioDashboard",
@@ -179,31 +185,41 @@ export default {
     return {
       loading: false,
       loadError: false,
-      apiCaseData: {
-        total: 12312312,
-        createInWeek: 123,
-        executedTimesInWeek: 234,
-        executedTimes: 33333,
-        apiCoveredRate: "33%",
-        executedRate: "34%",
-        passRate: "35%",
-        coveredCount: 1000,
-        unCoveredCount: 2000,
-        executedCount: 1001,
-        notExecutedCount: 1999,
-        passCount: 1002,
-        unPassCount: 1004,
-        fakeErrorCount: 994,
+      scenarioData: {
+        total: 0,
+        createdInWeek: 0,
+        executedTimesInWeek: 0,
+        executedTimes: 0,
+        apiCoveredRate: "0%",
+        executedRate: "0%",
+        passRate: "0%",
+        coveredCount: 0,
+        notCoveredCount: 0,
+        executedCount: 0,
+        notExecutedCount: 0,
+        passCount: 0,
+        unPassCount: 0,
+        fakeErrorCount: 0,
       }
     }
   },
-  created() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 3000);
+  activated() {
+    this.search();
   },
   methods: {
+    search() {
+      this.loading = true;
+      this.loadError = false;
+      let selectProjectId = getCurrentProjectID();
+      scenarioCountByProjectId(selectProjectId).then(response => {
+        this.loading = false;
+        this.loadError = false;
+        this.scenarioData = response.data;
+      }).catch(() => {
+        this.loading = false;
+        this.loadError = true;
+      });
+    },
     formatAmount(number) {
       return formatNumber(number);
     }

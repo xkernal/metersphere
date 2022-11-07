@@ -1,7 +1,7 @@
 <template>
   <div style="background-color:#E5E5E5;overflow: auto">
     <ms-container>
-      <ms-main-container>
+      <ms-main-container style="padding: 0px">
         <div class="api-home-layout">
           <el-row :gutter=16>
             <el-col :span="12">
@@ -63,37 +63,44 @@ export default {
 
   },
   methods: {
-    redirectPage(page, dataType, selectType, title) {
+    /**
+     *
+     * @param redirectPage 要跳转的页面
+     * @param dataType     要查询的数据类型
+     * @param selectRange  查询范围 （比如成功的、失败的、未执行的、已执行的等等）
+     * @param selectParam 查询参数 (比如ID)
+     */
+    redirectPage(redirectPage, dataType, selectRange, selectParam) {
       //传入UUID是为了进行页面重新加载判断
       let uuid = getUUID();
       let home;
-      switch (page) {
+      switch (redirectPage) {
         case "api":
           home = this.$router.resolve({
             name: 'ApiDefinitionWithQuery',
-            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectType}
+            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectRange}
           });
           break;
         case "apiWithQuery":
           home = this.$router.resolve({
             name: 'ApiDefinitionWithQuery',
-            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectType}
+            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectRange}
           });
           break;
         case "scenario":
           home = this.$router.resolve({
             name: 'ApiAutomationWithQuery',
-            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectType}
+            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectRange}
           });
           break;
         case "scenarioWithQuery":
           home = this.$router.resolve({
             name: 'ApiAutomationWithQuery',
-            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectType}
+            params: {redirectID: uuid, dataType: dataType, dataSelectRange: selectRange}
           });
           break;
         case "testPlanEdit":
-          home = this.$router.resolve('/track/plan/view/' + selectType)
+          home = this.$router.resolve('/track/plan/view/' + selectParam)
           break;
       }
       if (home) {
@@ -172,10 +179,6 @@ export default {
   font-weight: 500;
 }
 
-.api-home-layout :deep(.home-table-row) {
-
-}
-
 .api-home-layout :deep(.home-table-cell) {
   height: 38px;
   background-color: #F5F6F7;
@@ -184,7 +187,7 @@ export default {
   border: 1px solid rgba(31, 35, 41, 0.15);
   border-right-width: 0;
   border-left-width: 0;
-  color: #646A73;
+  color: #1F2329;
   line-height: 22px;
 }
 </style>

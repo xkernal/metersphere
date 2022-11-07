@@ -48,7 +48,7 @@ export default {
 .transition-box-hover {
   height: 100%;
   width: 100%;
-  background-color: #DEE0E3;
+  background-color: #F5F6F7;
   box-sizing: border-box;
   position: absolute;
   border: 1px solid #DEE0E3;

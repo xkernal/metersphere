@@ -106,12 +106,13 @@ public class TrackStatisticsDTO {
 
     /**
      * 按照 Priority 统计
+     *
      * @param trackCountResults 统计结果
      */
     public void countPriority(List<TrackCountResult> trackCountResults) {
         for (TrackCountResult countResult : trackCountResults) {
             if (StringUtils.isNotBlank(countResult.getGroupField())) {
-                switch (countResult.getGroupField().toUpperCase()){
+                switch (countResult.getGroupField().toUpperCase()) {
                     case TrackCount.P0:
                         this.p0CaseCountNumber += countResult.getCountNumber();
                         break;
@@ -134,11 +135,11 @@ public class TrackStatisticsDTO {
 
     public void countStatus(List<TrackCountResult> statusResults) {
         for (TrackCountResult countResult : statusResults) {
-            if(TestReviewCaseStatus.Prepare.name().equals(countResult.getGroupField())){
+            if (TestReviewCaseStatus.Prepare.name().equals(countResult.getGroupField())) {
                 this.prepareCount += countResult.getCountNumber();
-            }else if(TestReviewCaseStatus.Pass.name().equals(countResult.getGroupField())){
+            } else if (TestReviewCaseStatus.Pass.name().equals(countResult.getGroupField())) {
                 this.passCount += countResult.getCountNumber();
-            }else if(TestReviewCaseStatus.UnPass.name().equals(countResult.getGroupField())){
+            } else if (TestReviewCaseStatus.UnPass.name().equals(countResult.getGroupField())) {
                 this.unPassCount += countResult.getCountNumber();
             }
         }
@@ -146,7 +147,7 @@ public class TrackStatisticsDTO {
 
     public void countRelevance(List<TrackCountResult> relevanceResults) {
         for (TrackCountResult countResult : relevanceResults) {
-            switch (countResult.getGroupField()){
+            switch (countResult.getGroupField()) {
                 case TrackCount.TESTCASE:
                     this.apiCaseCount += countResult.getCountNumber();
                     this.allRelevanceCaseCount += countResult.getCountNumber();
@@ -167,10 +168,10 @@ public class TrackStatisticsDTO {
 
     public void countCoverage(List<TrackCountResult> coverageResults) {
         for (TrackCountResult countResult : coverageResults) {
-            if("coverage".equals(countResult.getGroupField())){
-                this.coverageCount+= countResult.getCountNumber();
-            }else if("uncoverage".equals(countResult.getGroupField())){
-                this.uncoverageCount+= countResult.getCountNumber();
+            if ("coverage".equals(countResult.getGroupField())) {
+                this.coverageCount += countResult.getCountNumber();
+            } else if ("unCovered".equals(countResult.getGroupField())) {
+                this.uncoverageCount += countResult.getCountNumber();
             }
         }
     }

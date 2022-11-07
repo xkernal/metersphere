@@ -22,12 +22,14 @@ const message = {
   home: {
     dashboard: {
       public: {
+        no_data: "No data",
+        load_error: "Load error",
         this_week: "Week",
         fake_error: "Fake error",
         executed_times_in_week: "Executed in week",
         executed_times: "Executed in history",
         covered: "Covered",
-        uncovered: "Uncovered",
+        not_covered: "Not covered",
         executed: "Executed",
         not_executed: "not executed",
         pass: "Pass",

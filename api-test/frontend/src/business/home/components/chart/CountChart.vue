@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="reloadOver">
     <el-row type="flex" justify="left" align="left">
       <div style="height: 184px;width: 184px;margin-left: 30px;margin-right: 30px;">
         <ms-chart :options="options"
@@ -64,6 +64,7 @@ export default {
   },
   data() {
     return {
+      reloadOver: true,
       pieChartStyle: {
         amountFontSize: 32,
       },
@@ -72,10 +73,13 @@ export default {
   created() {
   },
   methods: {
-    pageRedirect(param) {
-      alert(JSON.stringify(param));
+    reload() {
+      this.reloadOver = false;
+      this.$nextTick(() => {
+        this.reloadOver = true;
+      });
     },
-    getAmount() {
+    getTotal() {
       let total = 0;
       if (this.apiData.httpCount) {
         total += this.apiData.httpCount;
@@ -89,6 +93,10 @@ export default {
       if (this.apiData.sqlCount) {
         total += this.apiData.sqlCount;
       }
+      return total;
+    },
+    getAmount() {
+      let total = this.getTotal();
       if (total > 999999999) {
         this.pieChartStyle.amountFontSize = 20;
       } else if (total > 99999999) {
@@ -109,8 +117,19 @@ export default {
   },
   computed: {
     options() {
+      let protocolData = [{value: 0}];
+      let colorArr = ['#DEE0E3'];
+      if (this.getTotal() > 0) {
+        colorArr = ['#AA4FBF', '#FFD131', '#10CECE', '#4261F6',]
+        protocolData = [
+          {value: this.apiData.httpCount, name: 'HTTP'},
+          {value: this.apiData.rpcCount, name: 'RPC'},
+          {value: this.apiData.tcpCount, name: 'TCP'},
+          {value: this.apiData.sqlCount, name: 'SQL'},
+        ];
+      }
       let optionData = {
-        color: ['#AA4FBF', '#FFD131', '#10CECE', '#4261F6'],
+        color: colorArr,
         title: {
           text: "{mainTitle|" + this.$t("home.dashboard.api.api_total") + "}\n\n{number|" + this.getAmount() + "}\n\n",
           subtext: this.$t("home.dashboard.public.this_week") + "：+" + this.apiData.createdInWeek + " >",
@@ -131,7 +150,7 @@ export default {
               },
             }
           },
-          sublink: "api/automation",
+          sublink: "/#/api/definition",
           subtextStyle: {
             color: "#1F2329",
             fontSize: 12,
@@ -158,12 +177,7 @@ export default {
             labelLine: {
               show: false
             },
-            data: [
-              {value: this.apiData.httpCount, name: 'HTTP'},
-              {value: this.apiData.rpcCount, name: 'RPC'},
-              {value: this.apiData.tcpCount, name: 'TCP'},
-              {value: this.apiData.sqlCount, name: 'SQL'},
-            ]
+            data: protocolData,
           }
         ]
       };

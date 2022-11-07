@@ -644,16 +644,16 @@ export default {
         case 'thisWeekCount':
           this.condition.selectThisWeedData = true;
           break;
-        case 'notCoverage':
-          this.condition.apiCoverage = 'uncoverage';
+        case 'notCovered':
+          this.condition.apiCoverage = 'notCovered';
           this.condition.scenarioCoverage = null;
           break;
         case 'coverage':
           this.condition.apiCoverage = 'coverage';
           this.condition.scenarioCoverage = null;
           break;
-        case 'unCoverageTestCase':
-          this.condition.apiCaseCoverage = 'uncoverage';
+        case 'notCoveredTestCase':
+          this.condition.apiCaseCoverage = 'notCovered';
           break;
         case 'coverageTestCase':
           this.condition.apiCaseCoverage = 'coverage';
@@ -662,8 +662,8 @@ export default {
           this.condition.scenarioCoverage = 'coverage';
           this.condition.apiCoverage = null;
           break;
-        case 'unCoverageScenario':
-          this.condition.scenarioCoverage = 'uncoverage';
+        case 'notCoveredScenario':
+          this.condition.scenarioCoverage = 'notCovered';
           this.condition.apiCoverage = null;
           break;
         case 'Prepare':

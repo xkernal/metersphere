@@ -13,7 +13,7 @@
           <span class="main-info-card-title">{{ $t("home.dashboard.public.executed_times") }}</span>
           <div class="common-amount">
             <span class="addition-num">
-              {{ countData.executedTimes }}
+              {{ countData.executedCount }}
             </span>
           </div>
         </div>
@@ -22,9 +22,9 @@
             <el-col :span="12">
               <span class="main-info-card-title">{{ $t("home.dashboard.public.this_week") }}</span>
               <div class="common-amount">
-                <el-button class="common-amount-button" @click="redirect('createInWeek')">
+                <el-button class="common-amount-button" @click="redirect('createdInWeek')">
                   <span class="addition-num">
-                  {{ countData.createInWeek }}
+                  {{ countData.createdInWeek }}
                   </span>
                   <i class="el-icon-arrow-right"/>
                 </el-button>

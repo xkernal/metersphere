@@ -70,7 +70,7 @@
           <el-col :span="12">
             <span class="default-property">
               {{ $t('api_test.home_page.detail_card.uncoverage') }}
-              <el-link class="rows-count-number" @click="redirectPage('uncoverage')" target="_blank">
+              <el-link class="rows-count-number" @click="redirectPage('unCovered')" target="_blank">
                 <b>
                 {{ relevanceCountData.uncoverageCount }}
                 </b>

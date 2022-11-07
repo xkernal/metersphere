@@ -452,7 +452,7 @@
             </if>
 
             <include refid="filters"/>
-            <if test="request.caseCoverage == 'uncoverage' ">
+            <if test="request.caseCoverage == 'unCovered' ">
                 and test_case.id not in (select distinct test_case_test.test_case_id from test_case_test)
             </if>
             <if test="request.caseCoverage == 'coverage' ">
@@ -514,7 +514,7 @@
             </if>
             and test_case.case_public = TRUE
             <include refid="filters"/>
-            <if test="request.caseCoverage == 'uncoverage' ">
+            <if test="request.caseCoverage == 'unCovered' ">
                 and test_case.id not in (select distinct test_case_test.test_case_id from test_case_test)
             </if>
             <if test="request.caseCoverage == 'coverage' ">
@@ -650,7 +650,7 @@
                 and test_case.project_id = #{request.projectId}
             </if>
             <include refid="filters"/>
-            <if test="request.caseCoverage == 'uncoverage' ">
+            <if test="request.caseCoverage == 'unCovered' ">
                 and test_case.id not in (
                 SELECT test_case_id FROM test_case_test WHERE test_type = 'testCase' and test_id IN (select id FROM
                 api_test_case WHERE `STATUS` is null or status != 'Trash')
@@ -775,7 +775,7 @@
                 and test_case.project_id = #{request.projectId}
             </if>
             <include refid="filters"/>
-            <if test="request.caseCoverage == 'uncoverage' ">
+            <if test="request.caseCoverage == 'unCovered' ">
                 and test_case.id not in (select distinct test_case_test.test_case_id from test_case_test)
             </if>
             <if test="request.caseCoverage == 'coverage' ">
