@@ -43,10 +43,6 @@
               left-content="API"
               right-content="CASE"
             >
-              <template v-slot:version>
-                <version-select v-xpack :project-id="projectId" :version-id="trashVersion" @changeVersion="changeVersion"/>
-              </template>
-              <!-- 列表集合 -->
               <ms-api-list
                 v-if="trashActiveDom==='left'"
                 @runTest="runTest"

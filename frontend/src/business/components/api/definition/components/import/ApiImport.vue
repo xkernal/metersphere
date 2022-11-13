@@ -191,13 +191,6 @@ export default {
         ],
         protocol: "",
         platforms: [
-          {
-            name: 'MeterSphere',
-            value: 'Metersphere',
-            tip: this.$t('api_test.api_import.ms_tip'),
-            exportTip: this.$t('api_test.api_import.ms_export_tip'),
-            suffixes: new Set(['json'])
-          },
         ],
         postmanPlanform: {
           name: 'Postman',
@@ -213,20 +206,6 @@ export default {
           exportTip: this.$t('api_test.api_import.swagger_export_tip'),
           suffixes: new Set(['json'])
         },
-        harPlanform: {
-          name: 'HAR',
-          value: 'Har',
-          tip: this.$t('api_test.api_import.har_tip'),
-          exportTip: this.$t('api_test.api_import.har_export_tip'),
-          suffixes: new Set(['har'])
-        },
-        esbPlanform: {
-          name: 'ESB',
-          value: 'ESB',
-          tip: this.$t('api_test.api_import.esb_tip'),
-          exportTip: this.$t('api_test.api_import.esb_export_tip'),
-          suffixes: new Set(['xlsx', 'xls'])
-        },
         jmeterPlatform: {
           name: 'JMeter',
           value: 'Jmeter',
@@ -235,7 +214,7 @@ export default {
           suffixes: new Set(['jmx'])
         },
         selectedPlatform: {},
-        selectedPlatformValue: 'Metersphere',
+        selectedPlatformValue: 'Swagger2',
         result: {},
         projects: [],
         environments: [],
@@ -267,7 +246,6 @@ export default {
     created() {
       this.platforms.push(this.postmanPlanform);
       this.platforms.push(this.swaggerPlanform);
-      this.platforms.push(this.harPlanform);
       this.platforms.push(this.jmeterPlatform);
       this.selectedPlatform = this.platforms[0];
       //

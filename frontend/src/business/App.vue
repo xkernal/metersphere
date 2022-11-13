@@ -30,7 +30,6 @@
 
     <ms-view v-if="isShow"/>
 
-    <theme/>
   </el-col>
 </template>
 
